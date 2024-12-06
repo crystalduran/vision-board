@@ -5,7 +5,7 @@ function Home() {
   return (
     <>
       <header>
-        <img src="/Logo.svg" alt="logo sparkles" width={60} height={60} />
+        <img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} />
       </header>
 
       <main className="hero-container">

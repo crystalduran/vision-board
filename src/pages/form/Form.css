@@ -1,0 +1,123 @@
+.circle-blur {
+    position: absolute;
+    background-color: #2D0749;
+    border-radius: 50%;
+    filter: blur(200px);
+    opacity: 0.8;
+    z-index: -1000;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 600px;
+    top: 45%;
+}
+
+.circle-first {
+    left: 20%;
+}
+
+.circle-second {
+    left: 80%;
+}
+
+.header-form {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        font-size: 30px;
+        font-weight: 600;
+        background: -webkit-linear-gradient(#E5C2FF, #897599);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    img {
+        filter: drop-shadow(
+          0 0 2px #FFF49D
+        );
+    }
+}
+
+.form-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid #7A7A7A;
+    border-radius: 10px;
+    margin: 0 24%;
+    text-align: start;
+    padding: 60px;
+    overflow: hidden;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 300;
+        color: white;
+        margin: 0 0 25px;
+    }
+
+    label {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+input[type="text"] {
+    width: 100%; 
+    border: none; 
+    border-bottom: 2px solid white; 
+    background-color: transparent; 
+    color: white; 
+    padding: 10px 0; 
+    outline: none; 
+    font-size: 16px; 
+    font-family: "Nunito", sans-serif;
+    margin-bottom: 40px;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5); 
+    opacity: 1; 
+}
+
+input[type="text"]:hover,
+input[type="text"]:focus {
+    border-bottom-color: #d190ff; /
+}
+
+button {
+    padding: 10px 30px;
+    font-family: "Nunito", sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    border-style: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+.buttons-container {
+    padding: 10px 0;
+    display: flex;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-next {
+    background-color: #4E008A;
+    &:hover {
+        background-color: #9706ff;
+    }
+}
+
+.button-back {
+    background-color: #897599;
+    &:hover {
+        background-color: #4e3f5a;
+    }
+}
+
