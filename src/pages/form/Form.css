@@ -43,9 +43,12 @@
 
 .form-container {
     background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid #7A7A7A;
-    border-radius: 10px;
+    border-bottom: 1px solid #7A7A7A;
+    border-left: 1px solid #7A7A7A;
+    border-right: 1px solid #7A7A7A;
     margin: 0 24%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     text-align: start;
     padding: 60px;
     overflow: hidden;
@@ -60,10 +63,25 @@
     label {
         display: block;
         color: rgba(255, 255, 255, 0.9);
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 10px;
     }
 }
+
+.progress-bar-container {
+    margin: 0 24%;
+    height: 2px; 
+    background-color: #7A7A7A; 
+    overflow: hidden; /* Ensures no child element overflows outside the container */
+}
+
+.progress-bar {
+    height: 100%; /* Full height to fill the container */
+    background-color: #4E008A; /* Purple color for the progress */
+    transition: width 0.3s ease; /* Smooth transition when the width changes */
+}
+
+
 
 input[type="text"] {
     width: 100%; 
@@ -120,4 +138,5 @@ button {
         background-color: #4e3f5a;
     }
 }
+
 
