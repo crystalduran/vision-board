@@ -3,50 +3,36 @@ import { useFormContext } from '../../hooks/useFormContext';
 import '../../index.css';
 
 
-export const CareerForm = () => {
+export const OutfitsForms = () => {
     const { formData, updateFormData } = useFormContext();
-    const [images, setImages] = useState<File[]>(formData.imagesCareer);
-    const [career, setCareer] = useState<string>(formData.career);
+    const [images, setImages] = useState<File[]>(formData.imagesOutfit);
 
-    const MAX_IMAGES = 2;
+    const MAX_IMAGES = 6;
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newFiles = Array.from(e.target.files);
-            // combina las nuevas imágenes con las existentes
             const combinedFiles = [...images, ...newFiles];
             const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
             setImages(limitedFiles);
-            updateFormData({ imagesHome: limitedFiles });
+            updateFormData({ imagesOutfit: limitedFiles });
         }
     };
 
     const handleImagePreview = (image: File) => {
         return URL.createObjectURL(image);
-    };
+    }
 
     const removeImage = (indexToRemove: number) => {
         const updatedImages = images.filter((_, index) => index !== indexToRemove);
         setImages(updatedImages);
-        updateFormData({ imagesCareer: updatedImages });
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCareer(e.target.value);
-        updateFormData({ career: e.target.value });
-    };
+        updateFormData({ imagesOutfit: updatedImages });
+    }
 
     return (
         <>
-            <h2>Envision your dream career</h2>
-            <label>What is your dream career?</label>
-            <input
-                type="text"
-                name="career"
-                value={career}
-                placeholder="e.g., Architect, Software Engineer, Artist"
-                onChange={handleChange}
-            />
+            <h2>Create your fashion vision</h2>
+            <label>Choose the ideal outfits (6) you will wear</label>
             <div className="images-upload-container">
                 <input
                     type="file"
@@ -66,19 +52,19 @@ export const CareerForm = () => {
                     <p style={{ fontSize: '15px' }}>
                         {images.length >= MAX_IMAGES
                             ? 'Limit of images reached'
-                            : `Upload two images that represent your career or your work.
-PNG, SVG (rec. Aspect Ratio 1:1)`}
+                            : `Add 6 images to represent what your outfits will look like
+JPG, PNG, SVG (rec. 9:16 aspect ratio)`}
                     </p>
                 </label>
 
                 {images.length > 0 && (
-                    <div className="images-container">
+                    <div className="images-container-large">
                         {images.map((image, index) => (
                             <div key={index} style={{ position: 'relative' }}>
                                 <img
                                     src={handleImagePreview(image)}
                                     alt={`Preview ${index + 1}`}
-                                    className="image-uploaded"
+                                    className="image-uploaded-large"
                                 />
                                 <button
                                     onClick={() => removeImage(index)}

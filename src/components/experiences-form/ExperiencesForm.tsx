@@ -3,21 +3,19 @@ import { useFormContext } from '../../hooks/useFormContext';
 import '../../index.css';
 
 
-export const CareerForm = () => {
+export const ExperiencesForm = () => {
     const { formData, updateFormData } = useFormContext();
-    const [images, setImages] = useState<File[]>(formData.imagesCareer);
-    const [career, setCareer] = useState<string>(formData.career);
+    const [images, setImages] = useState<File[]>(formData.imagesExperiences);
 
     const MAX_IMAGES = 2;
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newFiles = Array.from(e.target.files);
-            // combina las nuevas imágenes con las existentes
             const combinedFiles = [...images, ...newFiles];
             const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
             setImages(limitedFiles);
-            updateFormData({ imagesHome: limitedFiles });
+            updateFormData({ imagesExperiences: limitedFiles });
         }
     };
 
@@ -28,25 +26,13 @@ export const CareerForm = () => {
     const removeImage = (indexToRemove: number) => {
         const updatedImages = images.filter((_, index) => index !== indexToRemove);
         setImages(updatedImages);
-        updateFormData({ imagesCareer: updatedImages });
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCareer(e.target.value);
-        updateFormData({ career: e.target.value });
+        updateFormData({ imagesExperiences: updatedImages });
     };
 
     return (
         <>
-            <h2>Envision your dream career</h2>
-            <label>What is your dream career?</label>
-            <input
-                type="text"
-                name="career"
-                value={career}
-                placeholder="e.g., Architect, Software Engineer, Artist"
-                onChange={handleChange}
-            />
+            <h2>Plan your adventures</h2>
+            <label>Add pictures of dream destinations to explore</label>
             <div className="images-upload-container">
                 <input
                     type="file"
@@ -66,8 +52,8 @@ export const CareerForm = () => {
                     <p style={{ fontSize: '15px' }}>
                         {images.length >= MAX_IMAGES
                             ? 'Limit of images reached'
-                            : `Upload two images that represent your career or your work.
-PNG, SVG (rec. Aspect Ratio 1:1)`}
+                            : `Upload 2 images that represent the destinations you want to visit or similar to them. 
+JPG, PNG, SVG (rec. Aspect Ratio 1:1)`}
                     </p>
                 </label>
 

@@ -12,9 +12,11 @@ export const HomeForm = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const newFiles = Array.from(e.target.files);
-            const files = newFiles.slice(0, MAX_IMAGES - images.length);
-            setImages(files);
-            updateFormData({ imagesHome: files });
+            // combina las nuevas imágenes con las existentes
+            const combinedFiles = [...images, ...newFiles];
+            const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
+            setImages(limitedFiles);
+            updateFormData({ imagesHome: limitedFiles });
         }
     };
 
@@ -28,11 +30,10 @@ export const HomeForm = () => {
         updateFormData({ imagesHome: updatedImages });
     };
 
-
     return (
         <>
-            <h2>Let’s imagine your home</h2>
-
+            <h2>Let’s imagine your home and your ideal bedroom</h2>
+            <label>Add pictures of your dream home and rooms</label>
             <div className="images-upload-container">
                 <input
                     type="file"
@@ -52,7 +53,7 @@ export const HomeForm = () => {
                     <p style={{ fontSize: '15px' }}>
                         {images.length >= MAX_IMAGES
                             ? 'Limit of images reached'
-                            : `Upload one or two images that represent your perfect house.
+                            : `Upload two images that represent your perfect house.
 PNG, SVG (rec. Aspect Ratio 1:1)`}
                     </p>
                 </label>
