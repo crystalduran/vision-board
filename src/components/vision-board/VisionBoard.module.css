@@ -1,0 +1,72 @@
+.visionBoardContainer {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.titleContainer {
+    text-align: center;
+    margin: 15px 0 20px;
+
+    h1 {
+        margin: 0;
+    }
+
+    h4 {
+        margin: 0;
+    }
+}
+
+.gallery {
+    column-count: 6;
+    column-gap: 0;
+    column-fill: balance;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+}
+
+.galleryItem {
+    break-inside: avoid; 
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: rgb(255, 248, 248);
+}
+
+.galleryItemImage {
+    width: 100%;
+    display: block;
+} 
+
+.randomText {
+    position: absolute; 
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    pointer-events: none; 
+    transform: translate(-50%, -50%); 
+    text-align: center;
+}
+
+.randomSticker {
+    position: absolute; 
+    pointer-events: none; 
+    aspect-ratio: 1 / 1;
+    height: 120px;
+    width: auto;
+}
+
+@media screen and (max-width: 810px) {
+    .gallery {
+        column-count: 2;
+        margin: 0 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .gallery {
+        column-count: 1;
+    }
+}
