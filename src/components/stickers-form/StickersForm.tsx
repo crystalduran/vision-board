@@ -1,33 +1,18 @@
-import { useState } from 'react';
-import { useFormContext } from '../../hooks/useFormContext';
+import { useImageUpload } from '../../hooks/useImageUpload';
 import '../../index.css';
 
 
 export const StickersForm = () => {
-    const { formData, updateFormData } = useFormContext();
-    const [images, setImages] = useState<File[]>(formData.stickers);
-
-    const MAX_IMAGES = 3;
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const newFiles = Array.from(e.target.files);
-            const combinedFiles = [...images, ...newFiles];
-            const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
-            setImages(limitedFiles);
-            updateFormData({ stickers: limitedFiles });
-        }
-    };
-
-    const handleImagePreview = (image: File) => {
-        return URL.createObjectURL(image);
-    };
-
-    const removeImage = (indexToRemove: number) => {
-        const updatedImages = images.filter((_, index) => index !== indexToRemove);
-        setImages(updatedImages);
-        updateFormData({ stickers: updatedImages });
-    };
+    const {
+        images,
+        maxImages,
+        handleImageChange,
+        handleImagePreview,
+        removeImage
+    } = useImageUpload({
+        maxImages: 3,
+        formKey: 'stickers'
+    });
 
     return (
         <>
@@ -41,16 +26,16 @@ export const StickersForm = () => {
                     onChange={handleImageChange}
                     style={{ visibility: "hidden" }}
                     id="image-upload"
-                    disabled={images.length >= MAX_IMAGES}
+                    disabled={images.length >= maxImages}
                 />
                 <label
                     htmlFor="image-upload"
-                    style={images.length >= MAX_IMAGES ? { cursor: 'not-allowed' } : {}}
+                    style={images.length >= maxImages ? { cursor: 'not-allowed' } : {}}
                     className='imageUpload-label'
                 >
-                    <img src={`${images.length >= MAX_IMAGES ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
+                    <img src={`${images.length >= maxImages ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
                     <p style={{ fontSize: '15px' }}>
-                        {images.length >= MAX_IMAGES
+                        {images.length >= maxImages
                             ? 'Limit of images reached'
                             : `Upload stickers to give your style to the vision board. (3)
  PNG, SVG (rec. Aspect Ratio 1:1)`}

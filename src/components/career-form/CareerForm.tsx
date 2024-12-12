@@ -1,40 +1,28 @@
 import { useState } from 'react';
 import { useFormContext } from '../../hooks/useFormContext';
+import { useImageUpload } from '../../hooks/useImageUpload';
 import '../../index.css';
 
 
 export const CareerForm = () => {
     const { formData, updateFormData } = useFormContext();
-    const [images, setImages] = useState<File[]>(formData.imagesCareer);
     const [career, setCareer] = useState<string>(formData.career);
-
-    const MAX_IMAGES = 2;
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const newFiles = Array.from(e.target.files);
-            // combina las nuevas imágenes con las existentes
-            const combinedFiles = [...images, ...newFiles];
-            const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
-            setImages(limitedFiles);
-            updateFormData({ imagesHome: limitedFiles });
-        }
-    };
-
-    const handleImagePreview = (image: File) => {
-        return URL.createObjectURL(image);
-    };
-
-    const removeImage = (indexToRemove: number) => {
-        const updatedImages = images.filter((_, index) => index !== indexToRemove);
-        setImages(updatedImages);
-        updateFormData({ imagesCareer: updatedImages });
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCareer(e.target.value);
         updateFormData({ career: e.target.value });
     };
+
+    const {
+        images,
+        maxImages,
+        handleImageChange,
+        handleImagePreview,
+        removeImage
+    } = useImageUpload({
+        maxImages: 2,
+        formKey: 'imagesCareer'
+    });
 
     return (
         <>
@@ -55,16 +43,16 @@ export const CareerForm = () => {
                     onChange={handleImageChange}
                     style={{ visibility: "hidden" }}
                     id="image-upload"
-                    disabled={images.length >= MAX_IMAGES}
+                    disabled={images.length >= maxImages}
                 />
                 <label
                     htmlFor="image-upload"
-                    style={images.length >= MAX_IMAGES ? { cursor: 'not-allowed' } : {}}
+                    style={images.length >= maxImages ? { cursor: 'not-allowed' } : {}}
                     className='imageUpload-label'
                 >
-                    <img src={`${images.length >= MAX_IMAGES ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
+                    <img src={`${images.length >= maxImages ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
                     <p style={{ fontSize: '15px' }}>
-                        {images.length >= MAX_IMAGES
+                        {images.length >= maxImages
                             ? 'Limit of images reached'
                             : `Upload two images that represent your career or your work.
 PNG, SVG (rec. Aspect Ratio 1:1)`}

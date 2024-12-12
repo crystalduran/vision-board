@@ -1,34 +1,17 @@
-import { useState } from 'react';
-import { useFormContext } from '../../hooks/useFormContext';
+import { useImageUpload } from '../../hooks/useImageUpload';
 import '../../index.css';
 
-
 export const ExperiencesForm = () => {
-    const { formData, updateFormData } = useFormContext();
-    const [images, setImages] = useState<File[]>(formData.imagesExperiences);
-
-    const MAX_IMAGES = 2;
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const newFiles = Array.from(e.target.files);
-            const combinedFiles = [...images, ...newFiles];
-            const limitedFiles = combinedFiles.slice(0, MAX_IMAGES);
-            setImages(limitedFiles);
-            updateFormData({ imagesExperiences: limitedFiles });
-        }
-    };
-
-    const handleImagePreview = (image: File) => {
-        return URL.createObjectURL(image);
-    };
-
-    const removeImage = (indexToRemove: number) => {
-        const updatedImages = images.filter((_, index) => index !== indexToRemove);
-        setImages(updatedImages);
-        updateFormData({ imagesExperiences: updatedImages });
-    };
-
+    const {
+        images,
+        maxImages,
+        handleImageChange,
+        handleImagePreview,
+        removeImage
+    } = useImageUpload({
+        maxImages: 2,
+        formKey: 'imagesExperiences'
+    });
     return (
         <>
             <h2>Plan your adventures</h2>
@@ -41,16 +24,16 @@ export const ExperiencesForm = () => {
                     onChange={handleImageChange}
                     style={{ visibility: "hidden" }}
                     id="image-upload"
-                    disabled={images.length >= MAX_IMAGES}
+                    disabled={images.length >= maxImages}
                 />
                 <label
                     htmlFor="image-upload"
-                    style={images.length >= MAX_IMAGES ? { cursor: 'not-allowed' } : {}}
+                    style={images.length >= maxImages ? { cursor: 'not-allowed' } : {}}
                     className='imageUpload-label'
                 >
-                    <img src={`${images.length >= MAX_IMAGES ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
+                    <img src={`${images.length >= maxImages ? '/ImagePlusGray.svg' : '/ImagePlus.svg'}`} alt="Upload image" height={40} width={40} />
                     <p style={{ fontSize: '15px' }}>
-                        {images.length >= MAX_IMAGES
+                        {images.length >= maxImages
                             ? 'Limit of images reached'
                             : `Upload 2 images that represent the destinations you want to visit or similar to them. 
 JPG, PNG, SVG (rec. Aspect Ratio 1:1)`}
