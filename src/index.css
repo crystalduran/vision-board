@@ -61,7 +61,22 @@
 
 .button-container-result {
     button {
+        margin: 9px 0;
+        width: 100%;
+    }
+
+    button:nth-child(1) {
         background-color: blueviolet;
+        &:hover {
+            background-color: rgb(83, 25, 138);
+        }
+    }
+
+    button:nth-child(2) {
+        background-color: purple;
+        &:hover {
+            background-color: rgb(73, 12, 73);
+        }
     }
 }
 
