@@ -1,5 +1,6 @@
 import { useFormContext } from "../../hooks/useFormContext";
 import { useStableImageSort } from "../../hooks/useStableImageStor";
+import { forwardRef } from "react";
 import { FormData } from "../../interfaces/form";
 import { Config } from "../../types/config";
 import styles from './VisionBoard.module.css';
@@ -8,7 +9,8 @@ type VisionBoardProps = {
     config: Config;
 };
 
-export const VisionBoard = ({ config }: VisionBoardProps) => {
+/*The forwardRef function takes a component and returns a new component that can accept ref as a prop. The ref is passed as the second argument to the functional component.*/
+export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ config }: VisionBoardProps, ref) => {
     const { formData } = useFormContext();
     const { theme, fontSize, fontFamily, showStickers } = config;
     const currentTime = new Date()
@@ -47,10 +49,10 @@ export const VisionBoard = ({ config }: VisionBoardProps) => {
     const sortedImages = useStableImageSort(allImages);
 
     return (
-        <div className={styles.visionBoardContainer} style={{ backgroundColor: theme === 'light' ? 'white' : 'black'}}>
+        <div ref={ref} className={styles.visionBoardContainer} style={{ backgroundColor: theme === 'light' ? 'white' : 'black' }}>
             <div className={styles.titleContainer}>
-                <h1 style={{ color: theme === 'light' ? '#1E1E1E' : 'white'}}>{formData.name}'s Vision Board <span>{year}</span></h1>
-                <h4 style={{ color: theme === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)'}}>{formData.mantra}</h4>
+                <h1 style={{ color: theme === 'light' ? '#1E1E1E' : 'white' }}>{formData.name}'s Vision Board <span>{year}</span></h1>
+                <h4 style={{ color: theme === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)' }}>{formData.mantra}</h4>
             </div>
 
             <div className={styles.gallery}>
@@ -80,8 +82,8 @@ export const VisionBoard = ({ config }: VisionBoardProps) => {
                 })}
                 {allTexts.map((text, index) => {
                     const positions = [
-                        { top: '20%', left: '20%' },
-                        { top: '20%', left: '75%' },
+                        { top: '22%', left: '20%' },
+                        { top: '22%', left: '75%' },
                         { top: '50%', left: '15%' },
                         { top: '50%', left: '80%' },
                         { top: '80%', left: '42%' },
@@ -112,17 +114,17 @@ export const VisionBoard = ({ config }: VisionBoardProps) => {
                     const column = index % columnCount; // columna actual (0, 1, 2, ...)
                     const row = Math.floor(index / columnCount); // fila actual (0, 1, 2, ...)
 
-                    // alternates the height to the column and row
+                    // alternates the height to the column and row (improve this because object-fit cover isn't support by html2canvas)
                     const height = (column % 2 === 0 && row % 2 === 0) || (column % 2 !== 0 && row % 2 !== 0)
                         ? '200px'
-                        : '300px';
+                        : '240px';
 
                     return (
                         <div
                             key={index}
                             className={styles.galleryItem}
                             style={{
-                                height, // applies the calc height
+                                height, 
                             }}
                         >
                             <img
@@ -130,7 +132,7 @@ export const VisionBoard = ({ config }: VisionBoardProps) => {
                                 src={URL.createObjectURL(image)}
                                 alt={`Gallery ${index + 1}`}
                                 style={{
-                                    height: '100%', 
+                                    height: '100%',
                                     objectFit: 'cover',
                                 }}
                             />
@@ -141,4 +143,4 @@ export const VisionBoard = ({ config }: VisionBoardProps) => {
 
         </div>
     );
-};
+});

@@ -48,7 +48,7 @@ export function Form() {
             case 12:
                 return <StickersForm />
             default:
-                return <h2>¡Gracias por completar el formulario!</h2>;
+                return <h2>Thank you!</h2>;
         }
     };
 

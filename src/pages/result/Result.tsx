@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { VisionBoard } from "../../components/vision-board/VisionBoard";
 import { ConfigPanel } from "../../components/config-panel/ConfigPanel";
+import { exportElementAsImage } from "../../utils/exportElementAsImage.ts";
 import styles from './Result.module.css';
 import { Link } from "react-router";
 import { Config } from "../../types/config";
@@ -12,6 +13,7 @@ export function Result() {
         fontFamily: 'default',
         showStickers: true,
     });
+    const visionBoardRef = useRef<HTMLDivElement>(null);
 
     const handleConfigChange = (newConfig: Partial<Config>) => {
         setConfig((prevConfig) => ({
@@ -19,10 +21,20 @@ export function Result() {
             ...newConfig,
         }));
     };
+
+    const handleExportClick = () => {
+        if (visionBoardRef.current) {
+            exportElementAsImage(visionBoardRef.current, {
+                fileName: 'vision-board',
+                format: 'png',
+                scale: 2,
+            });
+        }
+    };
+
     return (
         <>
             <header className={styles.headerResult}>
-                {/* <h1>DreamCraft</h1> */}
                 <img src="/Logo.svg" alt="sparkles by svgrepo" width={60} height={60} />
             </header>
             <div className={styles.titleResult}>
@@ -31,13 +43,13 @@ export function Result() {
                     <Link to="/create" className={styles.anchor}>you can go back here</Link></p>
             </div>
             <main className={styles.resultContainer}>
-                <VisionBoard config={config} />
+                <VisionBoard ref={visionBoardRef} config={config} />
                 <div>
                     <ConfigPanel config={config} onConfigChange={handleConfigChange} />
 
                     {/* Botones */}
                     <div className="button-container-result">
-                        <button>Download</button>
+                        <button onClick={handleExportClick}>Download</button>
                     </div>
                 </div>
             </main>
