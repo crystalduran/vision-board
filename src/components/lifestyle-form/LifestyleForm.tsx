@@ -1,53 +1,57 @@
-import { useState } from 'react';
 import { useFormContext } from '../../hooks/useFormContext';
+import { useInputLength } from '../../hooks/useInputLength';
+import { getCharacterCountDisplay } from '../../utils/getCharacterCountDisplay';
 
 export const LifestyleForm = () => {
     const { formData, updateFormData } = useFormContext();
-    
-    // initialize state with an array of 4 empty strings or existing lifestyle data (if I don't use this it doesn't work)
-    const [statements, setStatements] = useState<string[]>(
-        formData.lifestyle && formData.lifestyle.length > 0 
-            ? formData.lifestyle 
-            : ['', '']
-    );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        
-        // extract the statement number from the input name
-        const statementIndex = parseInt(name.replace('statement', '')) - 1;
-        
-        // create a new array with the updated statement
-        const updatedStatements = [...statements];
-        updatedStatements[statementIndex] = value;
-        
-        // update local state
-        setStatements(updatedStatements);
-        
-        // update form context with the entire statements array
-        updateFormData({ lifestyle: updatedStatements });
+    const statement1 = useInputLength({
+        maxLength: 50,
+        initialValue: formData.lifestyle?.[0] || '',
+    });
+
+    const statement2 = useInputLength({
+        maxLength: 50,
+        initialValue: formData.lifestyle?.[1] || '',
+    });
+
+    //function to add both statements into the form context
+    const handleFormUpdate = () => {
+        updateFormData({ lifestyle: [statement1.value, statement2.value] });
     };
-
-    // array of specific placeholders
-    const placeholders = [
-        'e.g. I eat healthy and balanced meals',
-        'e.g. I maintain a consistent fitness routine'
-    ];
 
     return (
         <div>
             <h2>Visualize your lifestyle</h2>
             <label>Write 2 statements that depict your ideal daily habits.</label>
-            {[1, 2].map((num) => (
+            {/* Statement 1 */}
+            <div className='textInput'>
                 <input
-                    key={`statement${num}`}
                     type="text"
-                    name={`statement${num}`}
-                    value={statements[num - 1]}
-                    placeholder={placeholders[num - 1]}
-                    onChange={handleChange}
+                    name="statement1"
+                    value={statement1.value}
+                    placeholder="e.g. I eat healthy and balanced meals"
+                    onChange={(e) => {
+                        statement1.handleChange(e);
+                        handleFormUpdate();
+                    }}
                 />
-            ))}
+                <p>{getCharacterCountDisplay(statement1.value.length, statement1.maxLength)}</p>
+            </div>
+            {/* Statement 2 */}
+            <div className='textInput'>
+                <input
+                    type="text"
+                    name="statement2"
+                    value={statement2.value}
+                    placeholder="e.g. I maintain a consistent fitness routine"
+                    onChange={(e) => {
+                        statement2.handleChange(e);
+                        handleFormUpdate();
+                    }}
+                />
+                <p>{getCharacterCountDisplay(statement2.value.length, statement2.maxLength)}</p>
+            </div>
         </div>
     );
 }

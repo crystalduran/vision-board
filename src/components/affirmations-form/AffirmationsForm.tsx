@@ -1,52 +1,58 @@
-import { useState } from 'react';
 import { useFormContext } from '../../hooks/useFormContext';
+import { useInputLength } from '../../hooks/useInputLength';
+import { getCharacterCountDisplay } from '../../utils/getCharacterCountDisplay';
 
 export const AffirmationsForm = () => {
     const { formData, updateFormData } = useFormContext();
-    
-    // initialize state with an array of 4 empty strings or existing affirmations data (if I don't use this it doesn't work)
-    const [affirmations, setAffirmations] = useState<string[]>(
-        formData.affirmations && formData.affirmations.length > 0 
-            ? formData.affirmations 
-            : ['', '']
-    );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        
-        // extract the affirmation number from the input name
-        const affirmationIndex = parseInt(name.replace('affirmation', '')) - 1;
-        
-        const updatedAffirmations = [...affirmations];
-        updatedAffirmations[affirmationIndex] = value;
-        
-        // update local state
-        setAffirmations(updatedAffirmations);
-        
-        // update form context with the entire affirmations array
-        updateFormData({ affirmations: updatedAffirmations });
+    // Declare two separate variables for the statements
+    const affirmation1 = useInputLength({
+        maxLength: 50,
+        initialValue: formData.affirmations?.[0] || '',
+    });
+
+    const affirmation2 = useInputLength({
+        maxLength: 50,
+        initialValue: formData.affirmations?.[1] || '',
+    });
+
+    const handleFormUpdate = () => {
+        updateFormData({ affirmations: [affirmation1.value, affirmation2.value] });
     };
-
-    // array of specific placeholders
-    const placeholders = [
-        'e.g. I am an academic genius',
-        'e.g. Enjoy life'
-    ];
 
     return (
         <div>
             <h2>Empower your mind</h2>
             <label>Write positive statements to motivate your growth</label>
-            {[1, 2].map((num) => (
+            {/* Affirmation 1 */}
+            <div className='textInput'>
                 <input
-                    key={`affirmation${num}`}
                     type="text"
-                    name={`affirmation${num}`}
-                    value={affirmations[num - 1]}
-                    placeholder={placeholders[num - 1]}
-                    onChange={handleChange}
+                    name="affirmation1"
+                    value={affirmation1.value}
+                    placeholder="e.g. I am an academic genius"
+                    onChange={(e) => {
+                        affirmation1.handleChange(e);
+                        handleFormUpdate();
+                    }}
                 />
-            ))}
+                <p>{getCharacterCountDisplay(affirmation1.value.length, affirmation1.maxLength)}</p>
+            </div>
+
+            {/* Affirmation 2 */}
+            <div className='textInput'>
+                <input
+                    type="text"
+                    name="affirmation2"
+                    value={affirmation2.value}
+                    placeholder="e.g. Enjoy life"
+                    onChange={(e) => {
+                        affirmation2.handleChange(e);
+                        handleFormUpdate();
+                    }}
+                />
+                <p>{getCharacterCountDisplay(affirmation2.value.length, affirmation2.maxLength)}</p>
+            </div>
         </div>
     );
 }

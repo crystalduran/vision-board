@@ -1,18 +1,13 @@
-import { useState } from 'react';
 import { useFormContext } from '../../hooks/useFormContext';
 import { useImageUpload } from '../../hooks/useImageUpload';
+import { useInputLength } from '../../hooks/useInputLength';
+import { getCharacterCountDisplay } from '../../utils/getCharacterCountDisplay';
 import '../../index.css';
 
 
 export const CareerForm = () => {
     const { formData, updateFormData } = useFormContext();
-    const [career, setCareer] = useState<string>(formData.career);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCareer(e.target.value);
-        updateFormData({ career: e.target.value });
-    };
-
+    const careerInput = useInputLength({ maxLength: 30, initialValue: formData.career || '' });
     const {
         images,
         maxImages,
@@ -28,13 +23,20 @@ export const CareerForm = () => {
         <>
             <h2>Envision your dream career</h2>
             <label>What is your dream career?</label>
-            <input
-                type="text"
-                name="career"
-                value={career}
-                placeholder="e.g., Architect, Software Engineer, Artist"
-                onChange={handleChange}
-            />
+            <div className='textInput'>
+                <input
+                    type="text"
+                    name="career"
+                    value={careerInput.value}
+                    placeholder="e.g., Architect, Software Engineer, Artist"
+                    onChange={(e) => {
+                        careerInput.handleChange(e);
+                        updateFormData({ career: e.target.value })
+                    }}
+                />
+                <p>{getCharacterCountDisplay(careerInput.value.length, careerInput.maxLength)}</p>
+            </div>
+
             <div className="images-upload-container">
                 <input
                     type="file"

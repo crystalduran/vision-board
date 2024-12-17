@@ -56,9 +56,8 @@ export function Form() {
         <>
             <div className="circle-blur circle-first"></div>
             <div className="circle-blur circle-second"></div>
-            <header className="header-form">
-                <h1>DreamCraft</h1>
-                <img src="/Logo.svg" alt="sparkles by svgrepo" width={60} height={60} />
+            <header>
+                <img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} />
             </header>
 
             <ProgressBar currentStep={step} totalSteps={totalSteps} />

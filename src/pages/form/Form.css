@@ -81,7 +81,15 @@
     transition: width 0.3s ease; /* Smooth transition when the width changes */
 }
 
+.textInput {
+    display: flex;
+    color: white;
+    gap: 10px;
 
+    p {
+        font-size: 14px;
+    }
+}
 
 input[type="text"] {
     width: 100%; 
