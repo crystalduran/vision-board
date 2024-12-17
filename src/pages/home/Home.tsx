@@ -5,7 +5,7 @@ function Home() {
   return (
     <>
       <header>
-        <img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} />
+        <a href="/" style={{ backgroundColor: 'transparent' }}><img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} /></a>
       </header>
 
       <main className="hero-container">

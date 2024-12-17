@@ -35,7 +35,7 @@ export function Result() {
     return (
         <>
             <header className={styles.headerResult}>
-                <img src="/Logo.svg" alt="sparkles by svgrepo" width={60} height={60} />
+                <a href="/" style={{ backgroundColor: 'transparent' }}><img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} /></a>
             </header>
             <div className={styles.titleResult}>
                 <h2>Result</h2>

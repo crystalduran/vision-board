@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useFormContext } from "../../hooks/useFormContext";
 import './Form.css';
 import { Link } from "react-router";
 import { StartForm } from '../../components/start-form/StartForm';
@@ -16,6 +17,7 @@ import { CustomForm } from "../../components/custom-form/CustomForm";
 import { StickersForm } from "../../components/stickers-form/StickersForm";
 
 export function Form() {
+    const { formData } = useFormContext();
     const [step, setStep] = useState(1);
     const totalSteps = 12;
 
@@ -52,12 +54,20 @@ export function Form() {
         }
     };
 
+    // Verificar si hay algún valor vacío en formData
+    const hasEmptyFields = Object.values(formData).some((value) => {
+        if (Array.isArray(value)) {
+            return value.some((item) => item.trim() === '');
+        }
+        return value.trim() === '';
+    });
+
     return (
         <>
             <div className="circle-blur circle-first"></div>
             <div className="circle-blur circle-second"></div>
             <header>
-                <img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} />
+                <a href="/" style={{ backgroundColor: 'transparent' }}><img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} /></a>
             </header>
 
             <ProgressBar currentStep={step} totalSteps={totalSteps} />
@@ -67,7 +77,11 @@ export function Form() {
                     <div className="buttons-container" style={step === 1 ? { justifyContent: "flex-end" } : {}}>
                         {step > 1 && <button onClick={prevStep} className='button-back'>{' < '} Back</button>}
                         {step < totalSteps && <button onClick={nextStep} className='button-next'>Next {' > '}</button>}
-                        {step === totalSteps && <Link to="/result" className="button-finish">Finish</Link>}
+                        {step === totalSteps && (hasEmptyFields ? (
+                            <p style={{ color: 'red' }}>Please fill in all fields.</p>
+                        ) : (
+                            <Link to="/result" className="button-finish">Finish</Link>
+                        ))}
                     </div>
                 </section>
             </main>
