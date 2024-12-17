@@ -86,7 +86,7 @@ export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ confi
                         { top: '22%', left: '75%' },
                         { top: '50%', left: '15%' },
                         { top: '50%', left: '80%' },
-                        { top: '80%', left: '42%' },
+                        { top: '78%', left: '42%' },
                     ];
 
                     // si hay más textos que posiciones, repetir las posiciones
