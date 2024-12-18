@@ -7,6 +7,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import Home from './pages/home/Home';
 import { Form } from './pages/form/Form';
 import { Result } from './pages/result/Result';
+import { PageNotFound } from './pages/PageNotFound';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,7 +16,8 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="create" element={<Form />} />
-          <Route path="result" element={<ProtectedRoute><Result/></ProtectedRoute>} />
+          <Route path="result" element={<ProtectedRoute><Result /></ProtectedRoute>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </FormProvider>

@@ -84,3 +84,10 @@ input[type=radio] {
     margin-right: 10px;
 }
 
+.notFound-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 80vh;
+}
