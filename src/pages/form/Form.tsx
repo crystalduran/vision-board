@@ -78,7 +78,7 @@ export function Form() {
                         {step > 1 && <button onClick={prevStep} className='button-back'>{' < '} Back</button>}
                         {step < totalSteps && <button onClick={nextStep} className='button-next'>Next {' > '}</button>}
                         {step === totalSteps && (hasEmptyFields ? (
-                            <p style={{ color: 'red' }}>Please fill in all fields.</p>
+                            <p style={{ color: 'red', fontSize: '12px' }}>Please fill in all fields.</p>
                         ) : (
                             <Link to="/result" className="button-finish">Finish</Link>
                         ))}
