@@ -21,7 +21,6 @@ export const FormProvider = ({ children }: FormProviderProps) => {
         imagesTech: [],
         imagesHealth: [],
         imagesCustom: [],
-        stickers: []
     });
 
     const updateFormData = (newData: Partial<FormData>) => {
@@ -43,7 +42,7 @@ export const FormProvider = ({ children }: FormProviderProps) => {
             'imagesHome', 'imagesCareer', 'lifestyle',
             'imagesOutfit', 'affirmations', 'imagesExperiences',
             'imageCar', 'imagesTech', 'imagesHealth',
-            'imagesCustom', 'stickers'
+            'imagesCustom'
         ];
         const hasNonEmptyArrays = arrayFields.some(
             field => formData[field] && formData[field].length > 0

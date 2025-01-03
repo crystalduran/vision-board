@@ -65,17 +65,6 @@ export const ConfigPanel = ({ config, onConfigChange }: ConfigPanelProps) => {
                     <option value="sans-serif">Sans-serif</option>
                 </select>
             </div>
-            {/* Show stickers or not */}
-            <div className={styles.individualConfigContainer}>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={config.showStickers}
-                        onChange={(e) => onConfigChange({ showStickers: e.target.checked })}
-                    />
-                    Show stickers
-                </label>
-            </div>
         </div>
     );
 }

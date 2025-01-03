@@ -12,7 +12,6 @@ export interface FormData {
     imagesTech: File[];
     imagesHealth: File[];
     imagesCustom: File[];
-    stickers: File[];
 }
 
 
