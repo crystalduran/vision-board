@@ -14,12 +14,11 @@ import { TechForm } from "../../components/tech-form/TechForm";
 import { ProgressBar } from "../../components/progress-bar/ProgressBar";
 import { HealthForm } from "../../components/health-form/HealthForm";
 import { CustomForm } from "../../components/custom-form/CustomForm";
-import { StickersForm } from "../../components/stickers-form/StickersForm";
 
 export function Form() {
     const { formData } = useFormContext();
     const [step, setStep] = useState(1);
-    const totalSteps = 12;
+    const totalSteps = 11;
 
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
@@ -47,19 +46,17 @@ export function Form() {
                 return <HealthForm />
             case 11:
                 return <CustomForm />
-            case 12:
-                return <StickersForm />
             default:
                 return <h2>Thank you!</h2>;
         }
     };
 
-    // Verificar si hay algún valor vacío en formData
+    // verificar si hay algún valor vacío en formData
     const hasEmptyFields = Object.values(formData).some((value) => {
         if (Array.isArray(value)) {
-            return value.some((item) => item.trim() === '');
+            return value.length === 0 || value.some((item) => typeof item === 'string' && item.trim() === '');
         }
-        return value.trim() === '';
+        return typeof value === 'string' && value.trim() === '';
     });
 
     return (
