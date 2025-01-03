@@ -1,24 +1,20 @@
-/**
- * Exports an HTML Element as an image with flexible options
- */
+import html2canvas from "html2canvas-objectfit-fix";
 
 export const exportElementAsImage = async (element: HTMLElement, options?: { fileName?: string; format?: 'png' | 'jpeg'; scale?: number; }): Promise<void> => {
     const {
         fileName = 'exported-image',
         format = 'png',
-        scale = 2 
+        scale = 2
     } = options || {};
 
     try {
-        const html2canvas = await import('html2canvas');
-
-        // render canvas with high quality and scaling
-        const canvas = await html2canvas.default(element, {
-            scale: scale,
-            useCORS: true,
+        // Render the canvas with high quality and scaling, passing options
+        const canvas = await html2canvas(element, {
+            scale: scale, // Scale option for quality
+            useCORS: true, // For handling cross-origin images,
             allowTaint: true,
             logging: false,
-            backgroundColor: null // Transparent background
+            backgroundColor: null
         });
 
         // Convert canvas to data URL
