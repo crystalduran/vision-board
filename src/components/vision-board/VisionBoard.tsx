@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useFormContext } from "../../hooks/useFormContext";
 import { useStableImageSort } from "../../hooks/useStableImageStor";
 import { forwardRef } from "react";
@@ -12,9 +13,36 @@ type VisionBoardProps = {
 /*The forwardRef function takes a component and returns a new component that can accept ref as a prop. The ref is passed as the second argument to the functional component.*/
 export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ config }: VisionBoardProps, ref) => {
     const { formData } = useFormContext();
-    const { theme, fontSize, fontFamily, showStickers } = config;
+    const { theme, fontSize, fontFamily } = config;
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const currentTime = new Date()
     const year = currentTime.getFullYear() + 1;
+
+    // Update window width on resize
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    // Logic for font size based on window width
+    const getResponsiveFontSize = (selectedSize: string) => {
+        if (windowWidth > 768) {
+            // Desktop
+            return selectedSize === 'small' ? '14px' : selectedSize === 'medium' ? '18px' : '20px';
+        } else if (windowWidth > 480) {
+            // Tablet
+            return selectedSize === 'small' ? '12px' : selectedSize === 'medium' ? '16px' : '18px';
+        } else {
+            // Mobile
+            return selectedSize === 'small' ? '10px' : selectedSize === 'medium' ? '12px' : '14px';
+        }
+    };
 
 
     // generic shuffling function
@@ -41,12 +69,42 @@ export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ confi
         ...shuffleArray(formData.affirmations).slice(0, 2),
     ].filter(text => text);
 
-    const allStickers = [...formData.stickers];
 
     // shuffle images for random display
     // const shuffledImages = shuffleArray(allImages);
 
     const sortedImages = useStableImageSort(allImages);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const getGalleryItemStyle = (index: number) => {
+        const columnCount = windowWidth > 768 ? 6 : windowWidth > 480 ? 3 : 2;
+        const column = index % columnCount;
+        const row = Math.floor(index / columnCount);
+        let height;
+        if (windowWidth > 768) {
+            // Desktop
+            height = (column % 2 === 0 && row % 2 === 0) || (column % 2 !== 0 && row % 2 !== 0)
+                ? '200px'
+                : '240px';
+        } else if (windowWidth > 480) {
+            // Tablet
+            height = (column % 2 === 0 && row % 2 === 0) || (column % 2 !== 0 && row % 2 !== 0)
+                ? '160px'
+                : '180px';
+        } else {
+            // Móvil
+            height = (column % 2 === 0 && row % 2 === 0) || (column % 2 !== 0 && row % 2 !== 0)
+                ? '100px'
+                : '140px';
+        }
+
+        return { height };
+    };
 
     return (
         <div ref={ref} className={styles.visionBoardContainer} style={{ backgroundColor: theme === 'light' ? 'white' : 'black' }}>
@@ -56,35 +114,13 @@ export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ confi
             </div>
 
             <div className={styles.gallery}>
-                {allStickers.map((sticker, index) => {
-                    const positions = [
-                        { top: '22%', left: '30%' },
-                        { top: '72%', left: '78%' },
-                        { top: '60%', left: '10%' },
-                    ];
 
-                    // si hay más stickers que posiciones, repetir las posiciones
-                    const { top, left } = positions[index % positions.length];
-
-                    return (
-                        <img
-                            key={index}
-                            className={styles.randomSticker}
-                            src={URL.createObjectURL(sticker)}
-                            alt={`Sticker ${index + 1}`}
-                            style={{
-                                top,
-                                left,
-                                display: showStickers === true ? 'inline' : 'none',
-                            }}
-                        />
-                    );
-                })}
+                {/* Texts */}
                 {allTexts.map((text, index) => {
                     const positions = [
                         { top: '22%', left: '20%' },
                         { top: '22%', left: '75%' },
-                        { top: '50%', left: '15%' },
+                        { top: '50%', left: '17%' },
                         { top: '50%', left: '80%' },
                         { top: '78%', left: '42%' },
                     ];
@@ -99,7 +135,7 @@ export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ confi
                             style={{
                                 top,
                                 left,
-                                fontSize: fontSize === 'small' ? '14px' : fontSize === 'medium' ? '18px' : '20px',
+                                fontSize: getResponsiveFontSize(fontSize), // Adjust font size dynamically
                                 fontFamily: fontFamily === 'default' ? 'Nunito, sans-serif' : fontFamily,
                                 color: theme === 'light' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
                                 backgroundColor: theme === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
@@ -109,23 +145,14 @@ export const VisionBoard = forwardRef<HTMLDivElement, VisionBoardProps>(({ confi
                         </div>
                     );
                 })}
+
+                {/* Images */}
                 {sortedImages.map((image, index) => {
-                    const columnCount = 6;
-                    const column = index % columnCount; // columna actual (0, 1, 2, ...)
-                    const row = Math.floor(index / columnCount); // fila actual (0, 1, 2, ...)
-
-                    // alternates the height to the column and row (improve this because object-fit cover isn't support by html2canvas)
-                    const height = (column % 2 === 0 && row % 2 === 0) || (column % 2 !== 0 && row % 2 !== 0)
-                        ? '200px'
-                        : '240px';
-
                     return (
                         <div
                             key={index}
                             className={styles.galleryItem}
-                            style={{
-                                height, 
-                            }}
+                            style={getGalleryItemStyle(index)}
                         >
                             <img
                                 className={styles.galleryItemImage}
