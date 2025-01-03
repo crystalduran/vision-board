@@ -1,6 +1,6 @@
 .visionBoardContainer {
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
 }
 
 .titleContainer {
@@ -23,7 +23,6 @@
     margin: 0;
     padding: 0;
     position: relative;
-
 }
 
 .galleryItem {
@@ -48,25 +47,4 @@
     pointer-events: none; 
     transform: translate(-50%, -50%); 
     text-align: center;
-}
-
-.randomSticker {
-    position: absolute; 
-    pointer-events: none; 
-    aspect-ratio: 1 / 1;
-    height: 120px;
-    width: auto;
-}
-
-@media screen and (max-width: 810px) {
-    .gallery {
-        column-count: 2;
-        margin: 0 20px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .gallery {
-        column-count: 1;
-    }
 }
