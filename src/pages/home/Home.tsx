@@ -1,10 +1,11 @@
+import { Footer } from '../../components/footer/Footer';
 import './Home.css'
 
 function Home() {
 
   return (
     <>
-      <header>
+      <header className="header-home">
         <a href="/" style={{ backgroundColor: 'transparent' }}><img className='logo' src="/Logo.svg" alt="logo sparkles" width={60} height={60} /></a>
       </header>
 
@@ -16,6 +17,7 @@ function Home() {
         </section>
       </main >
       <div className="circle-purple"></div>
+      <Footer/>
     </>
   );
 }
