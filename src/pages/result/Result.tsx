@@ -45,8 +45,8 @@ export function Result() {
             </div>
 
             {/* Botones */}
-            <div className="button-container-result">
-                <button onClick={handleExportClick}>Download Vision Board</button>
+            <div className={styles.buttonDownloadContainer}>
+                <button className={styles.buttonDownload} onClick={handleExportClick}><img src="/Download.svg" width={20} height={20} alt="Download svg"/><span>Download Image</span></button>
             </div>
             <main className={styles.resultContainer}>
                 <VisionBoard ref={visionBoardRef} config={config} />
@@ -54,7 +54,7 @@ export function Result() {
                     <ConfigPanel config={config} onConfigChange={handleConfigChange} />
                 </div>
             </main>
-            <Footer/>
+            <Footer />
         </>
     );
 };
