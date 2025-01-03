@@ -158,84 +158,8 @@ button {
     
     .progress-bar-container {
         margin: 40px 20px 0;
-        height: 2px; 
-        background-color: #7A7A7A; 
-        overflow: hidden; /* Ensures no child element overflows outside the container */
     }
-    
-    .progress-bar {
-        height: 100%; /* Full height to fill the container */
-        background-color: #4E008A; /* Purple color for the progress */
-        transition: width 0.3s ease; /* Smooth transition when the width changes */
-    }
-    
-    .textInput {
-        display: flex;
-        color: white;
-        gap: 10px;
-    
-        p {
-            font-size: 14px;
-        }
-    }
-    
-    input[type="text"] {
-        width: 100%; 
-        border: none; 
-        border-bottom: 2px solid white; 
-        background-color: transparent; 
-        color: white; 
-        padding: 10px 0; 
-        outline: none; 
-        font-size: 16px; 
-        font-family: "Nunito", sans-serif;
-        margin-bottom: 40px;
-    }
-    
-    input[type="text"]::placeholder {
-        color: rgba(255, 255, 255, 0.5); 
-        opacity: 1; 
-    }
-    
-    input[type="text"]:hover,
-    input[type="text"]:focus {
-        border-bottom-color: #d190ff; /
-    }
-    
-    button {
-        padding: 10px 30px;
-        font-family: "Nunito", sans-serif;
-        font-size: 17px;
-        font-weight: bold;
-        border-style: none;
-        color: white;
-        border-radius: 10px;
-        cursor: pointer;
-    
-    }
-    
-    .buttons-container {
-        padding: 10px 0;
-        display: flex;
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .button-next {
-        background-color: #4E008A;
-        &:hover {
-            background-color: #9706ff;
-        }
-    }
-    
-    .button-back {
-        background-color: #897599;
-        &:hover {
-            background-color: #4e3f5a;
-        }
-    }
-    
-    
+
 }
   
    /* Small devices */
