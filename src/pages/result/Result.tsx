@@ -5,15 +5,16 @@ import { exportElementAsImage } from "../../utils/exportElementAsImage.ts";
 import styles from './Result.module.css';
 import { Link } from "react-router";
 import { Config } from "../../types/config";
+import { Footer } from "../../components/footer/Footer.tsx";
 
 export function Result() {
     const [config, setConfig] = useState<Config>({
         theme: 'light',
         fontSize: 'medium',
         fontFamily: 'default',
-        showStickers: true,
     });
     const visionBoardRef = useRef<HTMLDivElement>(null);
+
 
     const handleConfigChange = (newConfig: Partial<Config>) => {
         setConfig((prevConfig) => ({
@@ -42,21 +43,18 @@ export function Result() {
                 <p style={{ display: 'inline' }}>If you want to change or add differents images on your vision board
                     <Link to="/create" className={styles.anchor}>you can go back here</Link></p>
             </div>
+
+            {/* Botones */}
+            <div className="button-container-result">
+                <button onClick={handleExportClick}>Download Vision Board</button>
+            </div>
             <main className={styles.resultContainer}>
                 <VisionBoard ref={visionBoardRef} config={config} />
                 <div>
                     <ConfigPanel config={config} onConfigChange={handleConfigChange} />
-
-                    {/* Botones */}
-                    <div className="button-container-result">
-                        <button onClick={handleExportClick}>Download</button>
-                    </div>
                 </div>
             </main>
-
-            <footer>
-                Made by Crystal Durán
-            </footer>
+            <Footer/>
         </>
     );
 };
