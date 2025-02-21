@@ -47,3 +47,9 @@ npm run preview
 4. Push the changes to your fork.
 5. Create a pull request.
 
+
+### Result example
+
+<img alt="output photo" src="https://i.imgur.com/IwQVN6X.jpeg" height="400">
+
+
